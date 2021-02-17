@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row">
+    <app-custom-select
+      [options]="contactTypes"
+      [multiselect]="multiselect"
+    ></app-custom-select>
+  </div>
+</div>
+
+<!-- <fieldset formArrayName="contacts">
+  <legend>Contacts</legend>
+  <div class="form-group" *ngFor="let contact of contacts.controls; let i = index">
+    <div class="row">
+      <div class="col-md-3">
+        <custom-select [options]="contactTypes" [formControl]="contact.controls['type']"></custom-select>
+      </div>
+      <div class="col-md-8">
+        <input type="text" class="form-control" [formControl]="contact.controls['value']">
+        <br>
+        <validator-message [field]="contact.controls['value']"></validator-message>
+      </div>
+      <div class="col-md-1">
+        <button class="btn btn-danger btn-block" type="button" (click)="removeContact(i);">X</button>
+      </div>
+    </div>
+  </div>
+  <validator-message [field]="signUpForm.get('contacts')"></validator-message>
+
+  <div class="clearfix text-right">
+    <button class="btn btn-info" type="button" (click)="addContact();">Add new</button>
+  </div>
+</fieldset> -->
