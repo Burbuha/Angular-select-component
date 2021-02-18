@@ -1,11 +1,13 @@
 <div class="container">
+
+  <h2>Создание компонента CustomSelect</h2>
   <div class="row">
-    <app-custom-select
-      [options]="selectOptions"
-      [multiselect]="multiselect"
-      [formControl]="customSelectControl"
-    ></app-custom-select>
+    <app-custom-select [options]="selectOptions" [multiselect]="multiselect" [formControl]="customSelectControl">
+    </app-custom-select>
   </div>
+
+  <h2>Создание Reactive-формы</h2>
+  <app-reactive-form></app-reactive-form>
 </div>
 
 <!-- <fieldset formArrayName="contacts">

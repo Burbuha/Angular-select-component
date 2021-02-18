@@ -3,6 +3,7 @@ import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { faCaretSquareDown } from '@fortawesome/free-solid-svg-icons';
 import { SelectOption } from '../ModelSelectOption';
+import { CustomSelectService } from './custom-select.service';
 
 @Component({
   selector: 'app-custom-select',
@@ -27,6 +28,8 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
   result: string = '';
 
   faCaretSquareDown = faCaretSquareDown;
+
+  constructor(private customSelectService: CustomSelectService) { }
 
   ngOnInit() {
     if (this.multiselect) {
@@ -80,9 +83,9 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  onChange: any = () => {};
+  onChange: any = () => { };
 
-  onTouched: any = () => {};
+  onTouched: any = () => { };
 
   toggleOpen() {
     this.open = !this.open;
@@ -107,11 +110,11 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
         this.selectedOptions.push(option.value);
         option.isDisabled = true;
       } else {
-        for (let i = this.selectedOptions.length - 1; i >= 0; i--) {
-          if (this.selectedOptions[i] === option.value) {
+        this.selectedOptions.forEach((item, i) => {
+          if (item === option.value) {
             this.selectedOptions.splice(i, 1);
           }
-        }
+        })
         option.isDisabled = false;
       }
 

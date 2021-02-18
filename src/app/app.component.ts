@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { SelectOption } from './ModelSelectOption';
 
 @Component({
@@ -10,9 +10,9 @@ import { SelectOption } from './ModelSelectOption';
 })
 export class AppComponent {
   title = 'Angular-select-component';
-  customSelectControl: FormControl = new FormControl();
-  public multiselect: boolean = true;
-  public selectOptions: SelectOption[] = [
+  customSelectControl!: FormControl;
+  multiselect: boolean = true;
+  selectOptions: SelectOption[] = [
     {
       value: 'phone',
       title: 'Phone',
@@ -59,14 +59,10 @@ export class AppComponent {
       isDisabled: false,
     },
   ];
+  ngOnInit() {
+    this.customSelectControl = new FormControl();
+    this.customSelectControl.valueChanges.subscribe((value) => console.log(value));
+    this.customSelectControl.statusChanges.subscribe((value) => console.log(value));
+  }
 
-  // checkOption({ detail }: CustomEvent): void {
-  //   this.selectOptions = this.selectOptions.map((option) => {
-  //     if (option === detail) {
-  //       option.isDisabled = !option.isDisabled;
-  //     }
-
-  //     return option;
-  //   });
-  // }
 }

@@ -34,13 +34,16 @@
     right: 0;
     top: 102%;
     display: none;
+    background-color: #fff;
     max-height: 200px;
     border: 1px solid #3280d1;
     overflow-y: auto;
+
   }
 }
 .active {
   display: block;
+  z-index: 10;
 }
 .select__current {
   width: 210px;
@@ -74,6 +77,7 @@
   padding: 8px;
   font-size: 16px;
   cursor: pointer;
+  background-color: #fff;
   &:hover {
     background-color: #3280d1;
     color: #fff;
