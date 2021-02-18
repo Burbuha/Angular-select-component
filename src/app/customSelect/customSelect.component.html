@@ -1,25 +1,67 @@
-<div class="btn-group btn-group-justified" [ngClass]="{ show: isOpen }">
-  <button type="button" class="btn btn-secondary select-input">
-    {{ placeholder }}
-  </button>
-  <button
-    type="button"
-    class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
-    (click)="toggleOpen()"
-  >
-    <span class="sr-only">Toggle Dropdown</span>
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <button
-      type="button"
-      class="dropdown-item select-input"
-      *ngFor="let option of options"
-      [ngClass]="{ active: option.value === value }"
-      (click)="optionSelect(option)"
+<div class="container">
+  <div class="select">
+    <div class="select__header">
+      <span class="select__current">{{ placeholder }}</span>
+      <button
+        class="select__icon"
+        (click)="toggleOpen()"
+        [disabled]="!options.length"
+      >
+        <fa-icon class="fa-arrow" [icon]="faCaretSquareDown"></fa-icon>
+      </button>
+    </div>
+
+    <div
+      class="select__body"
+      aria-labelledby="dropdownMenuButton"
+      [ngClass]="isOpen ? 'active' : ''"
     >
-      {{ option.title }}
-    </button>
-    <div class="dropdown-item" *ngIf="!options.length">No items for select</div>
+      <div
+        class="select__item"
+        *ngFor="let option of options; let index = index"
+        (click)="optionSelect(option)"
+      >
+        <label [attr.for]="index">
+          <input
+            *ngIf="checkboxesShown"
+            type="checkbox"
+            class="checkbox"
+            [attr.id]="index"
+            [checked]="option.isDisabled"
+            (change)="optionsSelect(option)"
+          />
+        </label>
+        {{ option.title }}
+      </div>
+      <!-- <div class="select__item" *ngIf="!options.length">No items for select</div> -->
+    </div>
   </div>
-  <input type="text" value="" />
+
+  <div class="select-result"><input value="{{ result }}" /></div>
 </div>
+
+<!-- <input type="text" class="select__selected-item" /> -->
+
+<!-- <div class="multiselect">
+  <div class="selectbox" (click)="showCheckboxes()">
+    <select>
+      <option>Выбрать что-то</option>
+    </select>
+
+    <div class="over-select"></div>
+  </div>
+
+  <div class="checkboxes" *ngIf="checkboxesShown">
+    <ng-container *ngFor="let option of options; let index = index">
+      <label [attr.for]="index">
+        <input
+          type="checkbox"
+          [attr.id]="index"
+          [checked]="option.completed"
+          (change)="checkOption(option)"
+        />
+        {{ option.title }}
+      </label>
+    </ng-container>
+  </div>
+</div> -->

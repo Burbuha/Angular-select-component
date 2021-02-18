@@ -1,5 +1,7 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { ControlValueAccessor } from './../ModelControlValueAccessor';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { faCaretSquareDown } from '@fortawesome/free-solid-svg-icons';
 import { SelectOption } from '../ModelSelectOption';
 
 @Component({
@@ -14,50 +16,59 @@ import { SelectOption } from '../ModelSelectOption';
   templateUrl: './customSelect.component.html',
   styleUrls: ['./customSelect.component.scss'],
 })
-export class CustomSelectComponent {
+export class CustomSelectComponent implements OnInit, ControlValueAccessor {
   @Input() options: SelectOption[] = [];
   @Input() multiselect?: boolean;
 
   selectedOption?: SelectOption;
+  selectedOptions: Array<any> = [];
   open: boolean = false;
+  checkboxesShown: boolean = false;
+  result: string = '';
 
-  get placeholder(): string {
-    return this.selectedOption && this.selectedOption.hasOwnProperty('title')
-      ? this.selectedOption.title
-      : 'Select';
+  faCaretSquareDown = faCaretSquareDown;
+
+  ngOnInit() {
+    if (this.multiselect) {
+      this.checkboxesShown = true;
+    }
   }
 
   get isOpen(): boolean {
     return this.open;
   }
 
-  onChange: any = () => {};
-
-  onTouched: any = () => {};
-
-  optionSelect(option: SelectOption) {
-    this.writeValue(option.value);
-    this.onTouched();
-    this.open = false;
-  }
-
-  toggleOpen() {
-    this.open = !this.open;
-  }
-
-  writeValue(value: any) {
-    if (!this.options) {
+  get placeholder(): string {
+    if (this.multiselect) {
+      return this.selectedOptions.length
+        ? `${this.selectedOptions.length} - selected`
+        : 'Select';
+    } else {
+      return this.selectedOption && this.selectedOption.hasOwnProperty('title')
+        ? this.selectedOption.title
+        : 'Select';
     }
+  }
+
+  writeValue(value: any): void {
+    const selectedEl = this.options.find((el) => el.value === value);
 
     if (typeof value === 'undefined' || value === null) {
+      this.selectedOption = undefined;
+      this.onChange();
       return;
     }
 
-    const selectedEl = this.options.find((el) => el.value === value);
+    if (this.multiselect) {
+      this.selectedOptions = value;
+      this.onChange(this.selectedOptions);
+      this.result = value.join(', ');
+    }
 
     if (selectedEl) {
       this.selectedOption = selectedEl;
       this.onChange(this.selectedOption.value);
+      this.result = this.selectedOption.value;
     }
   }
 
@@ -67,5 +78,45 @@ export class CustomSelectComponent {
 
   registerOnTouched(fn: void) {
     this.onTouched = fn;
+  }
+
+  onChange: any = () => {};
+
+  onTouched: any = () => {};
+
+  toggleOpen() {
+    this.open = !this.open;
+  }
+
+  //(Single select) MODE
+  optionSelect(option: SelectOption) {
+    if (this.multiselect) {
+      return;
+    }
+    this.writeValue(option.value);
+    this.onTouched();
+    this.open = false;
+  }
+
+  //(Multi select) MODE
+  optionsSelect(option: any) {
+    if (this.multiselect) {
+      if (typeof option.value === 'undefined' || option.value === null) {
+        return;
+      } else if (!option.isDisabled) {
+        this.selectedOptions.push(option.value);
+        option.isDisabled = true;
+      } else {
+        for (let i = this.selectedOptions.length - 1; i >= 0; i--) {
+          if (this.selectedOptions[i] === option.value) {
+            this.selectedOptions.splice(i, 1);
+          }
+        }
+        option.isDisabled = false;
+      }
+
+      this.writeValue(this.selectedOptions);
+      this.onTouched();
+    }
   }
 }

@@ -1,8 +1,9 @@
 <div class="container">
   <div class="row">
     <app-custom-select
-      [options]="contactTypes"
+      [options]="selectOptions"
       [multiselect]="multiselect"
+      [formControl]="customSelectControl"
     ></app-custom-select>
   </div>
 </div>
