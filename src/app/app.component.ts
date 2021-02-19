@@ -11,7 +11,7 @@ import { SelectOption } from './ModelSelectOption';
 export class AppComponent {
   title = 'Angular-select-component';
   customSelectControl!: FormControl;
-  multiselect: boolean = true;
+  multiselect: boolean = false;
   selectOptions: SelectOption[] = [
     {
       value: 'phone',
@@ -61,8 +61,11 @@ export class AppComponent {
   ];
   ngOnInit() {
     this.customSelectControl = new FormControl();
-    this.customSelectControl.valueChanges.subscribe((value) => console.log(value));
-    this.customSelectControl.statusChanges.subscribe((value) => console.log(value));
+    this.customSelectControl.valueChanges.subscribe((value) =>
+      console.log(value)
+    );
+    this.customSelectControl.statusChanges.subscribe((value) =>
+      console.log(value)
+    );
   }
-
 }

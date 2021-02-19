@@ -29,7 +29,7 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
 
   faCaretSquareDown = faCaretSquareDown;
 
-  constructor(private customSelectService: CustomSelectService) { }
+  constructor(private customSelectService: CustomSelectService) {}
 
   ngOnInit() {
     if (this.multiselect) {
@@ -83,9 +83,9 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  onChange: any = () => { };
+  onChange: any = () => {};
 
-  onTouched: any = () => { };
+  onTouched: any = () => {};
 
   toggleOpen() {
     this.open = !this.open;
@@ -114,7 +114,7 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
           if (item === option.value) {
             this.selectedOptions.splice(i, 1);
           }
-        })
+        });
         option.isDisabled = false;
       }
 

@@ -1,10 +1,42 @@
-<fieldset [formGroup]="fullAutoNameControl">
-  <app-custom-select [options]="brand" [multiselect]="multiselect" formControlName="brendAuto">
-  </app-custom-select>
-  <app-custom-select [options]="model" [multiselect]="multiselect" formControlName="modelAuto">
-  </app-custom-select>
-  <app-custom-select [options]="year" [multiselect]="multiselect" formControlName="yearAuto">
-  </app-custom-select>
-  <app-custom-select [options]="generation" [multiselect]="multiselect" formControlName="generationAuto">
-  </app-custom-select>
+<fieldset [formGroup]="fullAutoNameControl" class="form-group">
+  <div class="select-result">{{ currentValue }}</div>
+  <label>
+    Brand:
+    <app-custom-select
+      [options]="brands"
+      [multiselect]="multiselect"
+      formControlName="brandAuto"
+    >
+    </app-custom-select>
+  </label>
+
+  <label>
+    Model:
+    <app-custom-select
+      [options]="addModels()"
+      [multiselect]="multiselect"
+      formControlName="modelAuto"
+    >
+    </app-custom-select>
+  </label>
+
+  <label>
+    Year:
+    <app-custom-select
+      [options]="addYears()"
+      [multiselect]="multiselect"
+      formControlName="yearAuto"
+    >
+    </app-custom-select>
+  </label>
+
+  <label>
+    Generation:
+    <app-custom-select
+      [options]="addGenerations()"
+      [multiselect]="multiselect"
+      formControlName="generationAuto"
+    >
+    </app-custom-select>
+  </label>
 </fieldset>
