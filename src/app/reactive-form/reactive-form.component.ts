@@ -1,10 +1,7 @@
-import { ControlValueAccessor } from './../ModelControlValueAccessor';
-import { CustomSelectComponent } from './../customSelect/customSelect.component';
 import { Component, OnInit } from '@angular/core';
-import { SelectOption } from '../ModelSelectOption';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-
+import { SelectOption } from '../shared/ModelSelectOption';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ReactiveFormService } from './reactive-form.service';
 @Component({
   selector: 'app-reactive-form',
   templateUrl: './reactive-form.component.html',
@@ -142,7 +139,6 @@ export class ReactiveFormComponent implements OnInit {
     },
   ];
 
-  currentValue!: Object;
 
   // cars = {
   //   brand: [
@@ -587,45 +583,51 @@ export class ReactiveFormComponent implements OnInit {
   //   ],
   // };
 
+  currentValue!: Object;
   customSelectControl!: FormControl;
-  fullAutoNameControl!: FormGroup;
+  selectAutoFormGroup!: FormGroup;
 
-  constructor() {}
+  constructor(private reactiveFormService: ReactiveFormService) { }
 
   ngOnInit() {
-    this.fullAutoNameControl = new FormGroup({
+    this.selectAutoFormGroup = new FormGroup({
+      fullAutoName: new FormControl(),
       brandAuto: new FormControl(),
       modelAuto: new FormControl(),
       yearAuto: new FormControl(),
       generationAuto: new FormControl(),
     });
 
-    this.fullAutoNameControl.valueChanges.subscribe(
+    this.selectAutoFormGroup.valueChanges.subscribe(
       (value) => (this.currentValue = value)
     );
 
-    this.fullAutoNameControl.statusChanges.subscribe((status) =>
+    this.selectAutoFormGroup.statusChanges.subscribe((status) =>
       console.log(status)
     );
   }
 
-  addModels(): SelectOption[] {
-    return this.models.filter(
-      (model) => model.type == this.fullAutoNameControl.value.brandAuto
-    );
+  addBrand(): SelectOption[] {
+    return this.reactiveFormService.addBrand(this.brands);
   }
 
-  addYears(): any {
-    if (this.fullAutoNameControl.value.modelAuto !== null) {
-      return this.years;
-    }
-    return [];
+  addModel(): SelectOption[] {
+    let value = this.selectAutoFormGroup.value.brandAuto;
+    return this.reactiveFormService.addModel(this.models, value);
   }
 
-  addGenerations(): any {
-    if (this.fullAutoNameControl.value.yearAuto !== null) {
-      return this.generations;
-    }
-    return [];
+  addYear(): SelectOption[] {
+    let value = this.selectAutoFormGroup.value.modelAuto;
+    return this.reactiveFormService.addSelectValue(this.years, value);
+  }
+
+  addGeneration(): SelectOption[] {
+    let value = this.selectAutoFormGroup.value.yearAuto;
+    return this.reactiveFormService.addSelectValue(this.generations, value);
+  }
+
+  addFullAutoName(): string {
+    let addFullAutoName: string = `brand: ${this.selectAutoFormGroup.value.brandAuto}, model: ${this.selectAutoFormGroup.value.modelAuto}, generation: ${this.selectAutoFormGroup.value.generationAuto}`;
+    return this.reactiveFormService.addFullAutoName(addFullAutoName);
   }
 }

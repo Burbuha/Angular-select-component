@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CustomSelectComponent } from './customSelect.component';
+import { CustomSelectComponent } from './custom-select.component';
 
 describe('CustomSelectComponent', () => {
   let component: CustomSelectComponent;

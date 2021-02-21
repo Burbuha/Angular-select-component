@@ -1,42 +1,27 @@
-<fieldset [formGroup]="fullAutoNameControl" class="form-group">
-  <div class="select-result">{{ currentValue }}</div>
+<fieldset [formGroup]="selectAutoFormGroup" class="form-group">
+  <!-- <div class="select-result">{{ currentValue | json }}</div> -->
+  <input type="text" class="select-result" value="{{ addFullAutoName() }}" formControlName="fullAutoName">
   <label>
     Brand:
-    <app-custom-select
-      [options]="brands"
-      [multiselect]="multiselect"
-      formControlName="brandAuto"
-    >
+    <app-custom-select [options]="addBrand()" [multiselect]="multiselect" formControlName="brandAuto">
     </app-custom-select>
   </label>
 
   <label>
     Model:
-    <app-custom-select
-      [options]="addModels()"
-      [multiselect]="multiselect"
-      formControlName="modelAuto"
-    >
+    <app-custom-select [options]="addModel()" [multiselect]="multiselect" formControlName="modelAuto">
     </app-custom-select>
   </label>
 
   <label>
     Year:
-    <app-custom-select
-      [options]="addYears()"
-      [multiselect]="multiselect"
-      formControlName="yearAuto"
-    >
+    <app-custom-select [options]="addYear()" [multiselect]="multiselect" formControlName="yearAuto">
     </app-custom-select>
   </label>
 
   <label>
     Generation:
-    <app-custom-select
-      [options]="addGenerations()"
-      [multiselect]="multiselect"
-      formControlName="generationAuto"
-    >
+    <app-custom-select [options]="addGeneration()" [multiselect]="multiselect" formControlName="generationAuto">
     </app-custom-select>
   </label>
 </fieldset>

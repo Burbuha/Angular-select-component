@@ -1,8 +1,8 @@
-import { ControlValueAccessor } from './../ModelControlValueAccessor';
+import { ControlValueAccessor } from '../shared/ModelControlValueAccessor';
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { faCaretSquareDown } from '@fortawesome/free-solid-svg-icons';
-import { SelectOption } from '../ModelSelectOption';
+import { SelectOption } from '../shared/ModelSelectOption';
 import { CustomSelectService } from './custom-select.service';
 
 @Component({
@@ -14,8 +14,8 @@ import { CustomSelectService } from './custom-select.service';
       multi: true,
     },
   ],
-  templateUrl: './customSelect.component.html',
-  styleUrls: ['./customSelect.component.scss'],
+  templateUrl: './custom-select.component.html',
+  styleUrls: ['./custom-select.component.scss'],
 })
 export class CustomSelectComponent implements OnInit, ControlValueAccessor {
   @Input() options: SelectOption[] = [];
@@ -23,22 +23,20 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
 
   selectedOption?: SelectOption;
   selectedOptions: Array<any> = [];
+
   open: boolean = false;
   checkboxesShown: boolean = false;
+
   result: string = '';
 
   faCaretSquareDown = faCaretSquareDown;
 
-  constructor(private customSelectService: CustomSelectService) {}
+  constructor(private customSelectService: CustomSelectService) { }
 
   ngOnInit() {
     if (this.multiselect) {
       this.checkboxesShown = true;
     }
-  }
-
-  get isOpen(): boolean {
-    return this.open;
   }
 
   get placeholder(): string {
@@ -53,12 +51,24 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
     }
   }
 
+  private onChange: any = () => { };
+  private onTouched: any = () => { };
+
+  registerOnChange(fn: void) {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: void) {
+    this.onTouched = fn;
+  }
+
   writeValue(value: any): void {
     const selectedEl = this.options.find((el) => el.value === value);
 
     if (typeof value === 'undefined' || value === null) {
       this.selectedOption = undefined;
-      this.onChange();
+      this.result = '';
+      this.onChange(this.selectedOption);
       return;
     }
 
@@ -70,29 +80,23 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
 
     if (selectedEl) {
       this.selectedOption = selectedEl;
-      this.onChange(this.selectedOption.value);
       this.result = this.selectedOption.value;
+      this.onChange(this.result);
     }
   }
 
-  registerOnChange(fn: void) {
-    this.onChange = fn;
+  setDisabledState(isDisabled: boolean) {
+    //this.disabled = isDisabled;
   }
-
-  registerOnTouched(fn: void) {
-    this.onTouched = fn;
-  }
-
-  onChange: any = () => {};
-
-  onTouched: any = () => {};
 
   toggleOpen() {
-    this.open = !this.open;
+    if (this.options.length) {
+      this.open = !this.open;
+    }
   }
 
   //(Single select) MODE
-  optionSelect(option: SelectOption) {
+  selectOption(option: SelectOption) {
     if (this.multiselect) {
       return;
     }
@@ -102,7 +106,7 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
   }
 
   //(Multi select) MODE
-  optionsSelect(option: any) {
+  selectOptions(option: any) {
     if (this.multiselect) {
       if (typeof option.value === 'undefined' || option.value === null) {
         return;
@@ -117,7 +121,6 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
         });
         option.isDisabled = false;
       }
-
       this.writeValue(this.selectedOptions);
       this.onTouched();
     }

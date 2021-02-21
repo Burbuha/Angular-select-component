@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { SelectOption } from '../shared/ModelSelectOption';
 
 @Injectable({
   providedIn: 'root'
@@ -6,4 +7,7 @@ import { Injectable } from '@angular/core';
 export class CustomSelectService {
 
   constructor() { }
+
+
+
 }
