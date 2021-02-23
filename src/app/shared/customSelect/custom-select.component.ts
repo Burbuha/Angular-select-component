@@ -1,9 +1,10 @@
-import { ControlValueAccessor } from '../shared/ModelControlValueAccessor';
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { faCaretSquareDown } from '@fortawesome/free-solid-svg-icons';
-import { SelectOption } from '../shared/ModelSelectOption';
-import { CustomSelectService } from './custom-select.service';
+
+import { ControlValueAccessor } from '../models/ModelControlValueAccessor';
+import { SelectOption } from '../models/ModelSelectOption';
+import { CustomSelectService } from '../custom-select.service';
 
 @Component({
   selector: 'app-custom-select',
@@ -23,6 +24,7 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
 
   selectedOption?: SelectOption;
   selectedOptions: Array<any> = [];
+  customSelectControl!: FormControl;
 
   open: boolean = false;
   checkboxesShown: boolean = false;
@@ -31,12 +33,17 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
 
   faCaretSquareDown = faCaretSquareDown;
 
-  constructor(private customSelectService: CustomSelectService) { }
+  constructor(private customSelectService: CustomSelectService) {}
 
   ngOnInit() {
     if (this.multiselect) {
       this.checkboxesShown = true;
     }
+    this.customSelectControl = new FormControl();
+
+    this.customSelectControl.valueChanges.subscribe((value) =>
+      console.log(value)
+    );
   }
 
   get placeholder(): string {
@@ -51,8 +58,8 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  private onChange: any = () => { };
-  private onTouched: any = () => { };
+  private onChange: any = () => {};
+  private onTouched: any = () => {};
 
   registerOnChange(fn: void) {
     this.onChange = fn;
@@ -85,10 +92,6 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  setDisabledState(isDisabled: boolean) {
-    //this.disabled = isDisabled;
-  }
-
   toggleOpen() {
     if (this.options.length) {
       this.open = !this.open;
@@ -97,30 +100,20 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
 
   //(Single select) MODE
   selectOption(option: SelectOption) {
-    if (this.multiselect) {
-      return;
-    }
+    if (this.multiselect) return;
     this.writeValue(option.value);
     this.onTouched();
     this.open = false;
   }
 
   //(Multi select) MODE
-  selectOptions(option: any) {
+  selectOptions(event: any, option: SelectOption) {
     if (this.multiselect) {
-      if (typeof option.value === 'undefined' || option.value === null) {
-        return;
-      } else if (!option.isDisabled) {
-        this.selectedOptions.push(option.value);
-        option.isDisabled = true;
-      } else {
-        this.selectedOptions.forEach((item, i) => {
-          if (item === option.value) {
-            this.selectedOptions.splice(i, 1);
-          }
-        });
-        option.isDisabled = false;
-      }
+      this.customSelectService.selectOptions(
+        event,
+        option,
+        this.selectedOptions
+      );
       this.writeValue(this.selectedOptions);
       this.onTouched();
     }

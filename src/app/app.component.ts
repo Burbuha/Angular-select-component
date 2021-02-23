@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { SelectOption } from './shared/ModelSelectOption';
+import { SelectOption } from './shared/models/ModelSelectOption';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +9,6 @@ import { SelectOption } from './shared/ModelSelectOption';
 })
 export class AppComponent {
   title = 'Angular-select-component';
-  customSelectControl!: FormControl;
   multiselect: boolean = true;
   selectOptions: SelectOption[] = [
     {
@@ -39,7 +37,7 @@ export class AppComponent {
       isDisabled: false,
     },
     {
-      value: 40,
+      value: 0,
       title: 'Number',
       isDisabled: false,
     },
@@ -59,16 +57,10 @@ export class AppComponent {
       isDisabled: false,
     },
     {
-      value: { 'a': '1', 'b': '2', 'c': '3' },
+      value: { a: '1', b: '2', c: '3' },
       title: 'Object',
       isDisabled: false,
     },
   ];
-  ngOnInit() {
-    this.customSelectControl = new FormControl();
-    this.customSelectControl.valueChanges.subscribe((value) =>
-      console.log(value)
-    );
-  }
-
+  constructor() {}
 }

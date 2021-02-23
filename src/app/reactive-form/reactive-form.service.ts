@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
-import { SelectOption } from '../shared/ModelSelectOption';
+
+import { SelectOption } from '../shared/models/ModelSelectOption';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ReactiveFormService {
-
   addBrand(brands: SelectOption[]): SelectOption[] {
     return brands;
   }
 
   addModel(models: SelectOption[], value: string): SelectOption[] {
-    return models.filter(
-      (model) => model.type == value
-    );
+    return models.filter((model) => model.type == value);
   }
 
   addSelectValue(selectValue: SelectOption[], value: string): SelectOption[] {
@@ -26,5 +24,4 @@ export class ReactiveFormService {
   addFullAutoName(addFullAutoName: string): string {
     return addFullAutoName;
   }
-
 }
