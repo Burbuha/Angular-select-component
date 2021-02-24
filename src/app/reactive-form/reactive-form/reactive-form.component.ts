@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SelectOption } from '../../shared/models/ModelSelectOption';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ReactiveFormService } from '../reactive-form.service';
-import { brands, models, years, generations } from '../data';
+import { cars } from '../data';
 
 @Component({
   selector: 'app-reactive-form',
@@ -28,7 +28,7 @@ export class ReactiveFormComponent implements OnInit {
       generationAuto: new FormControl(null),
     });
 
-    this.selectAutoFormGroup.valueChanges.subscribe((value) => {
+    this.selectAutoFormGroup.valueChanges.pipe().subscribe((value) => {
       if (
         value.brandAuto === null ||
         value.modelAuto === null ||
@@ -40,21 +40,21 @@ export class ReactiveFormComponent implements OnInit {
   }
 
   addBrand(): SelectOption[] {
-    return this.reactiveFormService.addBrand(brands);
+    return this.reactiveFormService.addBrand();
   }
 
   addModel(): SelectOption[] {
-    let value = this.selectAutoFormGroup.value.brandAuto;
-    return this.reactiveFormService.addModel(models, value);
+    const value = this.selectAutoFormGroup.value.brandAuto;
+    return this.reactiveFormService.addModel(value);
   }
 
   addYear(): SelectOption[] {
-    let value = this.selectAutoFormGroup.value.modelAuto;
-    return this.reactiveFormService.addSelectValue(years, value);
+    let value = this.selectAutoFormGroup.value;
+    return this.reactiveFormService.addYear(value);
   }
 
   addGeneration(): SelectOption[] {
-    let value = this.selectAutoFormGroup.value.yearAuto;
-    return this.reactiveFormService.addSelectValue(generations, value);
+    let value = this.selectAutoFormGroup.value;
+    return this.reactiveFormService.addGeneration(value);
   }
 }
