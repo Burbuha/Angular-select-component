@@ -22,7 +22,7 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
   @Input() options: SelectOption[] = [];
   @Input() multiselect?: boolean;
 
-  selectedOption?: SelectOption;
+  selectedOption: SelectOption | null | undefined;
   selectedOptions: Array<any> = [];
   customSelectControl!: FormControl;
 
@@ -40,10 +40,6 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
       this.checkboxesShown = true;
     }
     this.customSelectControl = new FormControl();
-
-    this.customSelectControl.valueChanges.subscribe((value) =>
-      console.log(value)
-    );
   }
 
   get placeholder(): string {
@@ -73,7 +69,7 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
     const selectedEl = this.options.find((el) => el.value === value);
 
     if (typeof value === 'undefined' || value === null) {
-      this.selectedOption = undefined;
+      this.selectedOption = null;
       this.result = '';
       this.onChange(this.selectedOption);
       return;

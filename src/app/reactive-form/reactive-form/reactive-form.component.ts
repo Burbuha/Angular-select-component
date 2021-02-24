@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SelectOption } from '../../shared/models/ModelSelectOption';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ReactiveFormService } from '../reactive-form.service';
-import { brands, models, years, generations } from './data';
+import { brands, models, years, generations } from '../data';
 
 @Component({
   selector: 'app-reactive-form',
