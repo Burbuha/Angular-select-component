@@ -9,7 +9,7 @@ import { SelectOption } from './shared/models/ModelSelectOption';
 })
 export class AppComponent {
   title = 'Angular-select-component';
-  multiselect: boolean = true;
+  multiselect: boolean = false;
   selectOptions: SelectOption[] = [
     {
       value: '+375292222222',

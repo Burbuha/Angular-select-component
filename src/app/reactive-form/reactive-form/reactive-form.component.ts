@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { SelectOption } from '../../shared/models/ModelSelectOption';
 import { FormControl, FormGroup } from '@angular/forms';
+
 import { ReactiveFormService } from '../reactive-form.service';
-import { cars } from '../data';
+import { SelectOption } from '../../shared/models/ModelSelectOption';
 
 @Component({
   selector: 'app-reactive-form',
@@ -28,7 +28,7 @@ export class ReactiveFormComponent implements OnInit {
       generationAuto: new FormControl(null),
     });
 
-    this.selectAutoFormGroup.valueChanges.pipe().subscribe((value) => {
+    this.selectAutoFormGroup.valueChanges.subscribe((value) => {
       if (
         value.brandAuto === null ||
         value.modelAuto === null ||
@@ -44,17 +44,17 @@ export class ReactiveFormComponent implements OnInit {
   }
 
   addModel(): SelectOption[] {
-    const value = this.selectAutoFormGroup.value.brandAuto;
+    const value = this.selectAutoFormGroup.value;
     return this.reactiveFormService.addModel(value);
   }
 
   addYear(): SelectOption[] {
-    let value = this.selectAutoFormGroup.value;
+    const value = this.selectAutoFormGroup.value;
     return this.reactiveFormService.addYear(value);
   }
 
   addGeneration(): SelectOption[] {
-    let value = this.selectAutoFormGroup.value;
+    const value = this.selectAutoFormGroup.value;
     return this.reactiveFormService.addGeneration(value);
   }
 }

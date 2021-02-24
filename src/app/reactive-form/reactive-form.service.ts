@@ -11,8 +11,8 @@ export class ReactiveFormService {
     return cars.brand;
   }
 
-  addModel(value: string): SelectOption[] {
-    const brandCar = cars.brand.find((el) => el.value === value);
+  addModel(value: any): SelectOption[] {
+    const brandCar = cars.brand.find((el) => el.value === value.brandAuto);
     if (!brandCar?.model) return [];
     return brandCar.model;
   }
