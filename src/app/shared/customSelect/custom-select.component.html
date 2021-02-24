@@ -12,7 +12,7 @@
       </button>
     </div>
 
-    <div class="select__body" [ngClass]="open ? 'active' : ''">
+    <div class="select__body" *ngIf="open">
       <div
         class="select__item"
         *ngFor="let option of options; let index = index"

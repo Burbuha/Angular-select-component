@@ -1,6 +1,8 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+
 import { faCaretSquareDown } from '@fortawesome/free-solid-svg-icons';
+
 import { CustomSelectService } from '../custom-select.service';
 import { ControlValueAccessor } from '../models/ModelControlValueAccessor';
 import { SelectOption } from '../models/ModelSelectOption';

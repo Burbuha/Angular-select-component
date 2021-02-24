@@ -33,17 +33,13 @@
     left: 0;
     right: 0;
     top: 102%;
-    display: none;
+    display: block;
     background-color: #fff;
     max-height: 200px;
     border: 1px solid #3280d1;
     overflow-y: auto;
-
+    z-index: 10;
   }
-}
-.active {
-  display: block;
-  z-index: 10;
 }
 .select__current {
   width: 210px;
@@ -87,5 +83,5 @@
   margin-right: 5px;
 }
 .disabled {
- cursor: not-allowed;
+  cursor: not-allowed;
 }
