@@ -31,6 +31,7 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
   customSelectControl: FormControl = new FormControl();
 
   isOpen: boolean = false;
+  disabled: boolean = false;
   checkboxesShown: boolean = false;
 
   result: string = '';
@@ -74,6 +75,7 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
     if (typeof value === 'undefined' || value === null) {
       this.selectedOption = null;
       this.result = '';
+
       this.onChange(this.selectedOption);
       return;
     }

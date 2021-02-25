@@ -66,6 +66,9 @@
     box-shadow: inset rgba(0, 0, 0, 0.6) 0 -3px 8px,
       rgba(0, 0, 0, 0.8) 0 3px 8px -3px;
   }
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 .select__item {

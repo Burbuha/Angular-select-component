@@ -14,6 +14,7 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
   multiselect: boolean = false;
 
   currentValue: string | Array<any> = '';
+  fullAutoName: string | Array<any> = '';
   customSelectControl!: FormControl;
   selectAutoFormGroup!: FormGroup;
   resultFullAutoName: string = '';
@@ -32,13 +33,7 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       this.selectAutoFormGroup.valueChanges.subscribe((value) => {
-        if (
-          value.brandAuto === null ||
-          value.modelAuto === null ||
-          value.generationAuto === null
-        )
-          return;
-        return (this.currentValue = `${value.brandAuto}, ${value.modelAuto}, ${value.generationAuto}`);
+        return (this.fullAutoName = `${value.brandAuto}, ${value.modelAuto}, ${value.generationAuto}`);
       })
     );
     this.subscriptions.push(
@@ -46,38 +41,45 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
         this.selectAutoFormGroup.get('modelAuto')?.reset();
         this.selectAutoFormGroup.get('yearAuto')?.reset();
         this.selectAutoFormGroup.get('generationAuto')?.reset();
-        this.selectAutoFormGroup.get('fullAutoName')?.reset();
       })
     );
     this.subscriptions.push(
       this.selectAutoFormGroup.get('modelAuto')?.valueChanges.subscribe(() => {
         this.selectAutoFormGroup.get('yearAuto')?.reset();
         this.selectAutoFormGroup.get('generationAuto')?.reset();
-        this.selectAutoFormGroup.get('fullAutoName')?.reset();
       })
     );
     this.subscriptions.push(
       this.selectAutoFormGroup.get('yearAuto')?.valueChanges.subscribe(() => {
         this.selectAutoFormGroup.get('generationAuto')?.reset();
-        this.selectAutoFormGroup.get('fullAutoName')?.reset();
       })
     );
     this.subscriptions.push(
       this.selectAutoFormGroup
         .get('fullAutoName')
         ?.valueChanges.subscribe((value) => {
-          if (value) {
-            this.currentValue = value.split(', ');
-            if (cars.brand.includes(this.currentValue[0])) {
-              console.log('true');
-            }
-            if (cars.brand.includes(this.currentValue[1])) {
-              console.log('true');
-            }
-            if (cars.brand.includes(this.currentValue[2])) {
-              console.log('true');
-            }
-          }
+          this.fullAutoName = value.split(', ');
+          console.log(this.fullAutoName);
+          console.log(
+            cars.brand.map((item) => {
+              console.log(item.value);
+              console.log(this.fullAutoName[0]);
+              item.value == this.fullAutoName[0];
+            })
+          );
+
+          // if (value) {
+          //   this.fullAutoName = value.split(', ');
+          //   if (cars.brand.hasOwnProperty('title') === this.fullAutoName[0]) {
+          //     console.log('true');
+          //   }
+          //   if (cars.brand.includes(this.fullAutoName[1])) {
+          //     console.log('true');
+          //   }
+          //   if (cars.brand.includes(this.fullAutoName[2])) {
+          //     console.log('true');
+          //   }
+          // }
         })
     );
   }
