@@ -4,8 +4,6 @@
 ></app-form-subscriber>
 
 <fieldset [formGroup]="selectAutoFormGroup" class="form-group">
-  <div class="select-result">{{ selectAutoFormGroup.value | json }}</div>
-
   <label>
     FullAutoName:
     <input
@@ -18,8 +16,8 @@
   <label>
     Brand:
     <app-custom-select
-      [options]="addBrand()"
-      [multiselect]="multiselect"
+      [options]="getBrand()"
+      [multiselect]="false"
       formControlName="brandAuto"
     >
     </app-custom-select>
@@ -28,8 +26,8 @@
   <label>
     Model:
     <app-custom-select
-      [options]="addModel()"
-      [multiselect]="multiselect"
+      [options]="getModel()"
+      [multiselect]="false"
       formControlName="modelAuto"
       #form
     >
@@ -39,8 +37,8 @@
   <label>
     Year:
     <app-custom-select
-      [options]="addYear()"
-      [multiselect]="multiselect"
+      [options]="getYear()"
+      [multiselect]="false"
       formControlName="yearAuto"
     >
     </app-custom-select>
@@ -49,10 +47,12 @@
   <label>
     Generation:
     <app-custom-select
-      [options]="addGeneration()"
-      [multiselect]="multiselect"
+      [options]="getGeneration()"
+      [multiselect]="false"
       formControlName="generationAuto"
     >
     </app-custom-select>
   </label>
 </fieldset>
+
+<div class="select-result">{{ selectAutoFormGroup.value | json }}</div>

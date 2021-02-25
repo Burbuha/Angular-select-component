@@ -1,10 +1,13 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
-import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  FormControl,
+  NG_VALUE_ACCESSOR,
+  ControlValueAccessor,
+} from '@angular/forms';
 
 import { faCaretSquareDown } from '@fortawesome/free-solid-svg-icons';
 
 import { CustomSelectService } from '../custom-select.service';
-import { ControlValueAccessor } from '../models/ModelControlValueAccessor';
 import { SelectOption } from '../models/ModelSelectOption';
 
 @Component({
@@ -25,9 +28,9 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
 
   selectedOption: SelectOption | null | undefined;
   selectedOptions: Array<any> = [];
-  customSelectControl!: FormControl;
+  customSelectControl: FormControl = new FormControl();
 
-  open: boolean = false;
+  isOpen: boolean = false;
   checkboxesShown: boolean = false;
 
   result: string = '';
@@ -40,7 +43,6 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
     if (this.multiselect) {
       this.checkboxesShown = true;
     }
-    this.customSelectControl = new FormControl();
   }
 
   get placeholder(): string {
@@ -91,7 +93,7 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
 
   toggleOpen() {
     if (this.options.length) {
-      this.open = !this.open;
+      this.isOpen = !this.isOpen;
     }
   }
 
@@ -100,7 +102,7 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
     if (this.multiselect) return;
     this.writeValue(option.value);
     this.onTouched();
-    this.open = false;
+    this.isOpen = false;
   }
 
   //(Multi select) MODE

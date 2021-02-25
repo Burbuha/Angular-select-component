@@ -7,17 +7,17 @@ import { cars } from './data';
   providedIn: 'root',
 })
 export class ReactiveFormService {
-  addBrand(): SelectOption[] {
+  getBrand(): SelectOption[] {
     return cars.brand;
   }
 
-  addModel(value: any): SelectOption[] {
+  getModel(value: any): SelectOption[] {
     const brandCar = cars.brand.find((el) => el.value === value.brandAuto);
     if (!brandCar?.model) return [];
     return brandCar.model;
   }
 
-  addYear(value: any): SelectOption[] {
+  getYear(value: any): SelectOption[] {
     if (value.model !== null) {
       const brandCar = cars.brand.find((el) => el.value === value.brandAuto);
       const modelCar = brandCar?.model.find(
@@ -28,7 +28,7 @@ export class ReactiveFormService {
     return [];
   }
 
-  addGeneration(value: any): SelectOption[] {
+  getGeneration(value: any): SelectOption[] {
     if (value.yearAuto !== null) {
       const brandCar = cars.brand.find((el) => el.value === value.brandAuto);
       const modelCar = brandCar?.model.find(
@@ -40,7 +40,7 @@ export class ReactiveFormService {
     return [];
   }
 
-  addFullAutoName(addFullAutoName: string): string {
+  getFullAutoName(addFullAutoName: string): string {
     return addFullAutoName;
   }
 }

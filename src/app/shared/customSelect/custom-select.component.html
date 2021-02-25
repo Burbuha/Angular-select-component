@@ -12,18 +12,17 @@
       </button>
     </div>
 
-    <div class="select__body" *ngIf="open">
+    <div class="select__body" *ngIf="isOpen">
       <div
         class="select__item"
-        *ngFor="let option of options; let index = index"
+        *ngFor="let option of options"
         (click)="selectOption(option)"
       >
-        <label [attr.for]="index">
+        <label>
           <input
             *ngIf="checkboxesShown"
             type="checkbox"
             class="checkbox"
-            [attr.id]="index"
             (change)="selectOptions($event, option)"
             [disabled]="option.value === null || option.value === undefined"
           />

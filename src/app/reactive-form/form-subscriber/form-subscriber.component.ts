@@ -1,13 +1,5 @@
-import {
-  Component,
-  ElementRef,
-  forwardRef,
-  Input,
-  ViewChild,
-} from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
-
-import { ControlValueAccessor } from '../../shared/models/ModelControlValueAccessor';
+import { Component, forwardRef, Input } from '@angular/core';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
   selector: 'app-form-subscriber',
@@ -22,10 +14,8 @@ import { ControlValueAccessor } from '../../shared/models/ModelControlValueAcces
   ],
 })
 export class FormSubcriberComponent implements ControlValueAccessor {
-  @ViewChild('input') input!: ElementRef;
-
-  @Input() placeholder?: string;
-  @Input('userChoice') val?: string;
+  @Input() placeholder: string = '';
+  @Input('userChoice') val: string | Array<any> = '';
 
   disabled: boolean = true;
   onChange: any = () => {};
