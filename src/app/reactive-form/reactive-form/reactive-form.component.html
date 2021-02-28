@@ -1,56 +1,31 @@
-<app-form-subscriber
-  [placeholder]="'your choice'"
-  [userChoice]="currentValue"
-></app-form-subscriber>
+<app-form-subscriber [placeholder]="'your choice'" [userChoice]="currentValue"></app-form-subscriber>
 
 <fieldset [formGroup]="selectAutoFormGroup" class="form-group">
   <label>
     FullAutoName:
-    <input
-      type="text"
-      class="select-result"
-      value="{{ fullAutoName }}"
-      formControlName="fullAutoName"
-    />
+    <input type="text" class="select-result" value="{{ fullAutoName }}" formControlName="fullAutoName" />
   </label>
   <label>
     Brand:
-    <app-custom-select
-      [options]="getBrand()"
-      [multiselect]="false"
-      formControlName="brandAuto"
-    >
+    <app-custom-select [options]="getBrand()" [multiselect]="false" formControlName="brandAuto">
     </app-custom-select>
   </label>
 
   <label>
     Model:
-    <app-custom-select
-      [options]="getModel()"
-      [multiselect]="false"
-      formControlName="modelAuto"
-      #form
-    >
+    <app-custom-select [options]="getModel()" [multiselect]="false" formControlName="modelAuto" #form>
     </app-custom-select>
   </label>
 
   <label>
     Year:
-    <app-custom-select
-      [options]="getYear()"
-      [multiselect]="false"
-      formControlName="yearAuto"
-    >
+    <app-custom-select [options]="getYear()" [multiselect]="false" formControlName="yearAuto">
     </app-custom-select>
   </label>
 
   <label>
     Generation:
-    <app-custom-select
-      [options]="getGeneration()"
-      [multiselect]="false"
-      formControlName="generationAuto"
-    >
+    <app-custom-select [options]="getGeneration()" [multiselect]="false" formControlName="generationAuto">
     </app-custom-select>
   </label>
 </fieldset>

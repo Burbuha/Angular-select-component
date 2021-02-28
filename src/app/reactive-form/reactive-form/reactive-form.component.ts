@@ -20,7 +20,7 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
   resultFullAutoName: string = '';
   subscriptions: Array<any> = [];
 
-  constructor(private reactiveFormService: ReactiveFormService) {}
+  constructor(private reactiveFormService: ReactiveFormService) { }
 
   ngOnInit() {
     this.selectAutoFormGroup = new FormGroup({
@@ -33,9 +33,14 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       this.selectAutoFormGroup.valueChanges.subscribe((value) => {
-        return (this.fullAutoName = `${value.brandAuto}, ${value.modelAuto}, ${value.generationAuto}`);
+        this.fullAutoName = `${value.brandAuto}, ${value.modelAuto}, ${value.generationAuto}`;
+        if (value.brandAuto !== null, value.modelAuto !== null, value.generationAuto !== null) {
+          this.currentValue = this.fullAutoName;
+        };
+        return this.fullAutoName;
       })
     );
+
     this.subscriptions.push(
       this.selectAutoFormGroup.get('brandAuto')?.valueChanges.subscribe(() => {
         this.selectAutoFormGroup.get('modelAuto')?.reset();
@@ -43,43 +48,42 @@ export class ReactiveFormComponent implements OnInit, OnDestroy {
         this.selectAutoFormGroup.get('generationAuto')?.reset();
       })
     );
+
     this.subscriptions.push(
       this.selectAutoFormGroup.get('modelAuto')?.valueChanges.subscribe(() => {
         this.selectAutoFormGroup.get('yearAuto')?.reset();
         this.selectAutoFormGroup.get('generationAuto')?.reset();
       })
     );
+
     this.subscriptions.push(
       this.selectAutoFormGroup.get('yearAuto')?.valueChanges.subscribe(() => {
         this.selectAutoFormGroup.get('generationAuto')?.reset();
       })
     );
+
     this.subscriptions.push(
       this.selectAutoFormGroup
         .get('fullAutoName')
         ?.valueChanges.subscribe((value) => {
-          this.fullAutoName = value.split(', ');
-          console.log(this.fullAutoName);
-          console.log(
-            cars.brand.map((item) => {
-              console.log(item.value);
-              console.log(this.fullAutoName[0]);
-              item.value == this.fullAutoName[0];
+          const [brand, model, generation] = value.split(', ');
+          cars.brand.forEach((item) => {
+            if (item.value === brand) {
+              this.selectAutoFormGroup.get('brandAuto')?.setValue(brand);
+            }
+            item.model.forEach((item) => {
+              if (item.value === model) {
+                this.selectAutoFormGroup.get('modelAuto')?.setValue(model);
+              }
+              item.year.forEach((item) => {
+                item.generation.forEach((item) => {
+                  if (item.value === generation) {
+                    this.selectAutoFormGroup.get('generationAuto')?.setValue(generation);
+                  }
+                });
+              })
             })
-          );
-
-          // if (value) {
-          //   this.fullAutoName = value.split(', ');
-          //   if (cars.brand.hasOwnProperty('title') === this.fullAutoName[0]) {
-          //     console.log('true');
-          //   }
-          //   if (cars.brand.includes(this.fullAutoName[1])) {
-          //     console.log('true');
-          //   }
-          //   if (cars.brand.includes(this.fullAutoName[2])) {
-          //     console.log('true');
-          //   }
-          // }
+          })
         })
     );
   }
